@@ -20,20 +20,20 @@ class MainActivity : AppCompatActivity() {
 
     private val locations = listOf(
         LocationItem(
-            name = "St Kilda Beach",
-            cityStateCountry = "Melbourne, Victoria, Australia",
-            lastVisitDate = "2026-03-12",
-            rating = 4.5f,
-            imageResId = R.drawable.location_st_kilda,
-            region = "Victoria"
+            name = "Uluru (Ayers Rock)",
+            cityStateCountry = "Uluru-Kata Tjuta National Park, Northern Territory, Australia",
+            lastVisitDate = "2025-09-15",
+            rating = 5.0f,
+            imageResId = R.drawable.location_uluru,
+            region = "Northern Territory"
         ),
         LocationItem(
-            name = "Royal Botanic Gardens",
-            cityStateCountry = "Melbourne, Victoria, Australia",
-            lastVisitDate = "2025-10-04",
-            rating = 4.0f,
-            imageResId = R.drawable.location_botanic_gardens,
-            region = "Victoria"
+            name = "Great Barrier Reef",
+            cityStateCountry = "Cairns / Queensland, Australia",
+            lastVisitDate = "2026-02-10",
+            rating = 4.8f,
+            imageResId = R.drawable.location_great_barrier_reef,
+            region = "Queensland"
         ),
         LocationItem(
             name = "Sydney Opera House",
@@ -44,12 +44,12 @@ class MainActivity : AppCompatActivity() {
             region = "New South Wales"
         ),
         LocationItem(
-            name = "South Bank",
-            cityStateCountry = "Brisbane, Queensland, Australia",
-            lastVisitDate = "2026-01-05",
-            rating = 3.5f,
-            imageResId = R.drawable.location_south_bank,
-            region = "Queensland"
+            name = "Twelve Apostles (Great Ocean Road)",
+            cityStateCountry = "Port Campbell, Victoria, Australia",
+            lastVisitDate = "2023-12-01",
+            rating = 4.6f,
+            imageResId = R.drawable.location_twelve_apostles,
+            region = "Victoria"
         )
     )
 
