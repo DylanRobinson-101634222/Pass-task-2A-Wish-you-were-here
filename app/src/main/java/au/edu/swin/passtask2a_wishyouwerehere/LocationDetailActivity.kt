@@ -1,6 +1,7 @@
 package au.edu.swin.passtask2a_wishyouwerehere
 
 import android.os.Bundle
+import android.os.Build
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
@@ -15,7 +16,12 @@ class LocationDetailActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val location = intent.getParcelableExtra<LocationItem>(EXTRA_LOCATION)
+        val location = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra(EXTRA_LOCATION, LocationItem::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getParcelableExtra(EXTRA_LOCATION)
+        }
         if (location == null) {
             finish()
             return

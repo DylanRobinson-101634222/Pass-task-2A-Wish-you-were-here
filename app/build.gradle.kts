@@ -13,7 +13,6 @@ android {
     defaultConfig {
         applicationId = "au.edu.swin.passtask2a_wishyouwerehere"
         minSdk = 30
-        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 

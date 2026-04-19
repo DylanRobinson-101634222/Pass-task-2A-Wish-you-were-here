@@ -1,3 +1,20 @@
 <resources>
-    <string name="app_name">Pass task 2A - Wish you were here</string>
+    <string name="app_name">Wish You Were Here</string>
+    <string name="main_heading">Places I recommend</string>
+    <string name="recent_only_checkbox">Show only places visited in the last year</string>
+    <string name="sort_name">Sort by name</string>
+    <string name="sort_rating">Sort by rating</string>
+    <string name="last_visit_format">Last visit: %1$s</string>
+    <string name="location_image_content_description">Location image</string>
+    <string name="placeholder_location">Location name</string>
+    <string name="placeholder_place">City, State, Country</string>
+    <string name="placeholder_date">Last visit: yyyy-mm-dd</string>
+    <string name="region_all">All regions</string>
+
+    <string-array name="region_options">
+        <item>All regions</item>
+        <item>Victoria</item>
+        <item>New South Wales</item>
+        <item>Queensland</item>
+    </string-array>
 </resources>

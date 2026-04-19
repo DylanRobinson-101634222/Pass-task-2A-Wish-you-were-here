@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            style="@style/ScreenHeadingStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/main_heading" />
+
+        <Spinner
+            android:id="@+id/spinner_region"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" />
+
+        <CheckBox
+            android:id="@+id/checkbox_recent_only"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/recent_only_checkbox" />
+
+        <RadioGroup
+            android:id="@+id/rg_sort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_sort_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/sort_name" />
+
+            <RadioButton
+                android:id="@+id/rb_sort_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="@string/sort_rating" />
+        </RadioGroup>
+
+        <GridLayout
+            android:id="@+id/location_grid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:columnCount="2">
+
+            <include
+                android:id="@+id/card_1"
+                layout="@layout/location_card" />
+
+            <include
+                android:id="@+id/card_2"
+                layout="@layout/location_card" />
+
+            <include
+                android:id="@+id/card_3"
+                layout="@layout/location_card" />
+
+            <include
+                android:id="@+id/card_4"
+                layout="@layout/location_card" />
+
+        </GridLayout>
+
+    </LinearLayout>
+</ScrollView>
+

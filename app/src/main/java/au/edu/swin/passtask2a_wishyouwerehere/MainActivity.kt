@@ -88,10 +88,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupCards() {
         cardViews.clear()
-        cardViews += findViewById(R.id.card_1)
-        cardViews += findViewById(R.id.card_2)
-        cardViews += findViewById(R.id.card_3)
-        cardViews += findViewById(R.id.card_4)
+        cardViews += findViewById<View>(R.id.card_1)
+        cardViews += findViewById<View>(R.id.card_2)
+        cardViews += findViewById<View>(R.id.card_3)
+        cardViews += findViewById<View>(R.id.card_4)
     }
 
     private fun setupFilters() {
