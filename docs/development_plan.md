@@ -114,3 +114,9 @@ git commit -m "docs: add spike notes evidence and references draft"
 - Keep UI text in `strings.xml`.
 - Keep images in `res/drawable`.
 - Avoid frequent large binary commits while you are still iterating.
+
+## Image links - from Pexels (free to use) for the four places
+- https://www.pexels.com/photo/scenic-view-of-the-twelve-apostles-at-sunset-33451170/
+- https://www.pexels.com/photo/sydney-opera-house-with-harbor-bridge-in-view-35517293/
+- https://www.pexels.com/photo/heart-reef-26447294/
+- https://www.pexels.com/photo/uluru-at-sunrise-in-the-australian-outback-35890005/
