@@ -74,6 +74,17 @@
                     android:text="@string/sort_rating" />
             </RadioGroup>
 
+            <!-- Shown only when filters result in no matching places -->
+            <TextView
+                android:id="@+id/tv_empty_state"
+                style="@style/LocationMetaStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:gravity="center"
+                android:text="@string/empty_state_message"
+                android:visibility="gone" />
+
             <GridLayout
                 android:id="@+id/location_grid"
                 android:layout_width="match_parent"
