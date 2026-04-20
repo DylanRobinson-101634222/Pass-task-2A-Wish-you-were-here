@@ -1,24 +1,26 @@
-# Wish You Were Here — Development & commit plan
+# Wish You Were Here - Development and Commit Plan
 
-Overview
-- Work in small steps and commit after each mini-task (30–90 minutes).
-- Keep simple evidence with each commit (screenshots, short notes) so the spike report is easy to write.
+## Overview
+- Do the work in small steps.
+- Commit after each mini-task (about 30 to 90 minutes).
+- Keep simple proof for each step (screenshots and short notes).
 
-Quick checklist (what each commit should show)
-- Two activities using `startActivity` and a `Parcelable` object to pass data.
-- Four place images shown on the main screen with name and rating under each.
-- At least one non-TextView widget on the detail screen (we use `RatingBar`).
-- Use `Spinner`, `CheckBox` and `RadioGroup` on the main screen.
-- Put all visible text in `strings.xml` and use at least two reusable styles from `styles.xml`.
-- Keep place data in memory and images in `res/drawable` (do not write app data to external files).
+## Quick checklist (what your commits should show)
+- Two activities using `startActivity`.
+- A `Parcelable` object used to pass place data.
+- Four place images on the main screen with name and rating.
+- `Spinner`, `CheckBox`, `RadioGroup`, and `RatingBar` in use.
+- Visible text kept in `strings.xml`.
+- At least two shared styles used in more than one place.
+- Place data kept in memory, images kept in `res/drawable`.
 
-Work sessions (each ends with a commit)
+## Work sessions (make one commit at the end of each)
 
-Session 1 — Repo hygiene (30–45 min)
+### Session 1 - Clean up repo (30 to 45 min)
 Tasks:
-- Add a `.gitignore` to stop IDE files and build outputs being tracked.
-- Remove any tracked `.idea` files from the Git index.
-- Check the Git log and status.
+- Add `.gitignore` so IDE files and build files are not tracked.
+- Remove tracked `.idea` files from Git.
+- Check Git log and status.
 
 PowerShell commands:
 ```powershell
@@ -33,43 +35,44 @@ git commit -m "chore: ignore IDE metadata and clean tracked project files"
 git --no-pager status
 ```
 
-Session 2 — Add your four places (60–90 min)
+### Session 2 - Add your four places (60 to 90 min)
 Tasks:
-- Edit `MainActivity.kt` and replace the example `LocationItem` entries with your four real places (name, place, last visit date, rating, region).
-- Replace the placeholder drawables in `app/src/main/res/drawable` with your photos (keep the same resource names or update `imageResId`).
+- Update `MainActivity.kt` with your four real places.
+- Include name, city/state/country, last visit date, rating, and region.
+- Replace placeholder images in `app/src/main/res/drawable` with your own.
 
 Commit message:
-```
+```text
 feat: add my four local locations with real details and images
 ```
 
-Session 3 — Improve filtering and sorting (60–90 min)
+### Session 3 - Improve filtering and sorting (60 to 90 min)
 Tasks:
-- Make sure `Spinner`, `CheckBox` and `RadioGroup` clearly change what is shown.
-- Add a small empty-state `TextView` that shows when no items match the filters.
-- Add content descriptions for the images for accessibility.
+- Make sure `Spinner`, `CheckBox`, and `RadioGroup` clearly change results.
+- Add a small empty-state `TextView` when no places match filters.
+- Add clear content descriptions for images.
 
 Commit message:
-```
+```text
 feat: polish filtering, sorting and empty-state behaviour
 ```
 
-Session 4 — Finalise detail screen and styles (45–75 min)
+### Session 4 - Finalise detail screen and styles (45 to 75 min)
 Tasks:
 - Confirm `LocationDetailActivity` reads the `Parcelable` and shows all fields.
-- Ensure `RatingBar` (and any other non-TextView widget) shows the correct value when the activity starts.
-- Use at least two shared styles from `styles.xml` on both screens.
+- Confirm `RatingBar` shows the correct value when the screen opens.
+- Reuse at least two styles from `styles.xml` across both screens.
 
 Commit message:
-```
+```text
 feat: finalise detail screen intent flow and reusable styles
 ```
 
-Session 5 — Tests, screenshots and spike report draft (45–60 min)
+### Session 5 - Test, capture proof, and draft report (45 to 60 min)
 Tasks:
-- Run `.\gradlew.bat test` to check the project builds.
-- Take screenshots for evidence: main screen, filtered view, sorted view, detail view, empty state.
-- Write `docs/spike-notes.md` with sketches, a short explanation of intents and `Parcelable`, knowledge gaps and references (APA 7).
+- Run `.\gradlew.bat test`.
+- Capture screenshots: main, filtered, sorted, detail, empty-state.
+- Draft `docs/spike-notes.md` with sketches, intent notes, `Parcelable` notes, gaps, and references (APA 7).
 
 PowerShell commands:
 ```powershell
@@ -79,7 +82,7 @@ git add -A
 git commit -m "docs: add spike notes evidence and references draft"
 ```
 
-Suggested commit messages (short list)
+## Suggested commit messages
 - `feat: add two-activity scaffold with parcelable intent flow`
 - `feat: build main/detail layouts with spinner checkbox radiogroup and ratingbar`
 - `chore: add resources, styles, placeholder images and README`
@@ -89,26 +92,25 @@ Suggested commit messages (short list)
 - `feat: finalise detail screen intent flow and reusable styles`
 - `test/docs: add screenshots and spike report draft`
 
-Evidence to include in the spike report
-- Two quick sketches of the screens (photo or scanned) in `docs/sketches/`.
-- Screenshots:
-  - main screen showing four images and ratings
-  - filtered results (Spinner or CheckBox applied)
-  - sorted results (RadioGroup effect)
-  - detail screen with rating shown correctly
-  - empty-state screen when no items match
-- Short code snippets (intent creation, `Parcelable` implementation) with short captions.
-- Link to your GitHub repo and list of the commits that show progress.
+## Evidence for the spike report
+- Two quick screen sketches in `docs/sketches/`.
+- Screenshots of:
+  - main screen with four images and ratings
+  - filtered results
+  - sorted results
+  - detail screen with rating shown
+  - empty-state screen
+- Short code snippets for intent and `Parcelable`, with short captions.
+- GitHub repo link and commit list to show progress.
 
-How to pick up this project on another computer
+## Continue on another computer
 - Clone the repo.
-- Run `.\gradlew.bat test` to check the project builds.
-- Open the project in Android Studio and run the `app` configuration on an emulator (API 30+ is fine).
-- Look at `docs/development_plan.md` and `docs/spike-notes.md` for the next tasks.
+- Run `.\gradlew.bat test`.
+- Open in Android Studio and run the `app` config on an emulator/device.
+- Read `docs/development_plan.md` and `docs/spike-notes.md` for next tasks.
 
-Notes and tips
-- Keep each commit focused on one task so marking can see progress.
-- Use string resources for all visible text and keep images in `res/drawable`.
-- Avoid committing large binary files frequently while you iterate; add them only when needed for the report.
-
-If you want, I will also create a ready-to-edit `docs/spike-notes.md` template and an empty `docs/sketches/` folder for your images. Tell me to proceed and I will add these files now.
+## Notes
+- Keep each commit focused on one clear task.
+- Keep UI text in `strings.xml`.
+- Keep images in `res/drawable`.
+- Avoid frequent large binary commits while you are still iterating.
