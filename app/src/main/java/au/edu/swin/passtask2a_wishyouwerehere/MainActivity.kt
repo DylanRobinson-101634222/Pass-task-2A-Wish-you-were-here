@@ -3,6 +3,7 @@ package au.edu.swin.passtask2a_wishyouwerehere
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import android.widget.GridLayout
@@ -12,8 +13,6 @@ import android.widget.RatingBar
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import au.edu.swin.passtask2a_wishyouwerehere.model.LocationItem
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -59,6 +58,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recentOnlyCheckBox: CheckBox
     private lateinit var sortRadioGroup: RadioGroup
     private lateinit var locationGrid: GridLayout
+    private lateinit var toolbar: Toolbar
 
     private val cardViews = mutableListOf<View>()
 
@@ -66,37 +66,22 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        toolbar = findViewById(R.id.toolbar)
+
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(true)
+
         regionSpinner = findViewById(R.id.spinner_region)
         recentOnlyCheckBox = findViewById(R.id.checkbox_recent_only)
         sortRadioGroup = findViewById(R.id.rg_sort)
         locationGrid = findViewById(R.id.location_grid)
 
-        applyWindowInsets()
         setupSpinner()
         setupCards()
         setupFilters()
         refreshCards()
     }
 
-    private fun applyWindowInsets() {
-        val scrollView = findViewById<View>(R.id.scroll_main)
-        val startPadding = scrollView.paddingLeft
-        val topPadding = scrollView.paddingTop
-        val endPadding = scrollView.paddingRight
-        val bottomPadding = scrollView.paddingBottom
-
-        ViewCompat.setOnApplyWindowInsetsListener(scrollView) { view, insets ->
-            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(
-                startPadding + bars.left,
-                topPadding + bars.top,
-                endPadding + bars.right,
-                bottomPadding + bars.bottom
-            )
-            insets
-        }
-        ViewCompat.requestApplyInsets(scrollView)
-    }
 
     private fun setupSpinner() {
         ArrayAdapter.createFromResource(
