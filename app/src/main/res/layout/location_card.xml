@@ -24,8 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="@string/placeholder_location"
-        android:textColor="@color/material_dynamic_primary80" />
+        android:text="@string/placeholder_location" />
 
     <!-- Rating and last visit are always pinned here at the bottom -->
     <RatingBar
@@ -46,8 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:gravity="center"
-        android:text="@string/placeholder_date"
-        android:textColor="@color/material_dynamic_neutral80" />
+        android:text="@string/placeholder_date" />
 
 </LinearLayout>
 

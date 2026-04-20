@@ -6,8 +6,7 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.appcompat.widget.Toolbar
 import au.edu.swin.passtask2a_wishyouwerehere.model.LocationItem
 
 class LocationDetailActivity : AppCompatActivity() {
@@ -15,7 +14,10 @@ class LocationDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location_detail)
-        applyWindowInsets()
+
+        val toolbar = findViewById<Toolbar>(R.id.toolbar_detail)
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = getString(R.string.app_name)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -38,25 +40,6 @@ class LocationDetailActivity : AppCompatActivity() {
         findViewById<RatingBar>(R.id.rb_detail_rating).rating = location.rating
     }
 
-    private fun applyWindowInsets() {
-        val scrollView = findViewById<android.view.View>(R.id.scroll_detail)
-        val startPadding = scrollView.paddingLeft
-        val topPadding = scrollView.paddingTop
-        val endPadding = scrollView.paddingRight
-        val bottomPadding = scrollView.paddingBottom
-
-        ViewCompat.setOnApplyWindowInsetsListener(scrollView) { view, insets ->
-            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(
-                startPadding + bars.left,
-                topPadding + bars.top,
-                endPadding + bars.right,
-                bottomPadding + bars.bottom
-            )
-            insets
-        }
-        ViewCompat.requestApplyInsets(scrollView)
-    }
 
     override fun onSupportNavigateUp(): Boolean {
         finish()
