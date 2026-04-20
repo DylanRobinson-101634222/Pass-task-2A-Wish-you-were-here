@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="0dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_rowWeight="1"
     android:layout_columnWeight="1"
     android:layout_margin="8dp"
-    android:layout_rowWeight="1"
     android:background="@drawable/bg_location_card"
     android:orientation="vertical"
     android:padding="12dp">
@@ -13,6 +13,7 @@
         android:id="@+id/iv_location"
         android:layout_width="match_parent"
         android:layout_height="130dp"
+        android:layout_gravity="center|center_horizontal"
         android:contentDescription="@string/location_image_content_description"
         android:scaleType="centerCrop" />
 
@@ -22,25 +23,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/placeholder_location" />
+        android:gravity="center"
+        android:text="@string/placeholder_location"
+        android:textColor="@color/material_dynamic_primary80" />
 
     <RatingBar
         android:id="@+id/rb_location_rating"
         style="?android:attr/ratingBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="4dp"
         android:isIndicator="true"
         android:numStars="5"
-        android:stepSize="0.5"
-        android:layout_marginTop="4dp" />
+        android:stepSize="0.5" />
 
     <TextView
         android:id="@+id/tv_last_visit"
         style="@style/LocationMetaStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:layout_marginTop="4dp"
-        android:text="@string/placeholder_date" />
+        android:gravity="bottom|center"
+        android:text="@string/placeholder_date"
+        android:textColor="@color/material_dynamic_neutral60" />
 
 </LinearLayout>
 

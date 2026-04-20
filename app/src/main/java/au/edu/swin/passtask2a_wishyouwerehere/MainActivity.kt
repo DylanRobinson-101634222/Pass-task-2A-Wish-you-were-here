@@ -12,6 +12,8 @@ import android.widget.RatingBar
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import au.edu.swin.passtask2a_wishyouwerehere.model.LocationItem
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -69,10 +71,31 @@ class MainActivity : AppCompatActivity() {
         sortRadioGroup = findViewById(R.id.rg_sort)
         locationGrid = findViewById(R.id.location_grid)
 
+        applyWindowInsets()
         setupSpinner()
         setupCards()
         setupFilters()
         refreshCards()
+    }
+
+    private fun applyWindowInsets() {
+        val scrollView = findViewById<View>(R.id.scroll_main)
+        val startPadding = scrollView.paddingLeft
+        val topPadding = scrollView.paddingTop
+        val endPadding = scrollView.paddingRight
+        val bottomPadding = scrollView.paddingBottom
+
+        ViewCompat.setOnApplyWindowInsetsListener(scrollView) { view, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(
+                startPadding + bars.left,
+                topPadding + bars.top,
+                endPadding + bars.right,
+                bottomPadding + bars.bottom
+            )
+            insets
+        }
+        ViewCompat.requestApplyInsets(scrollView)
     }
 
     private fun setupSpinner() {
@@ -137,11 +160,13 @@ class MainActivity : AppCompatActivity() {
         ratingBar.rating = item.rating
         dateText.text = getString(R.string.last_visit_format, item.lastVisitDate)
 
-        imageView.setOnClickListener {
-            startActivity(Intent(this, LocationDetailActivity::class.java).apply {
-                putExtra(LocationDetailActivity.EXTRA_LOCATION, item)
-            })
-        }
+        card.setOnClickListener { openLocationDetail(item) }
+    }
+
+    private fun openLocationDetail(item: LocationItem) {
+        startActivity(Intent(this, LocationDetailActivity::class.java).apply {
+            putExtra(LocationDetailActivity.EXTRA_LOCATION, item)
+        })
     }
 
     private fun wasVisitedInLastYear(dateText: String): Boolean {
