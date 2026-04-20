@@ -1,6 +1,7 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
-    <style name="Theme.PassTask2AWishYouWereHere" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <!-- Use NoActionBar so we can supply a custom Toolbar in layouts -->
+    <style name="Theme.PassTask2AWishYouWereHere" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -9,8 +10,9 @@
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
+        <!-- Status bar color. Keep it themed. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:elevation">4dp</item>
     </style>
 </resources>
