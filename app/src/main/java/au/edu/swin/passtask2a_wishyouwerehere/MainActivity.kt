@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter
 
 class MainActivity : AppCompatActivity() {
 
-    // Location data kept in memory — not stored on disk.
+    // All four places are stored here in memory — nothing is written to disk.
     private val locations = listOf(
         LocationItem(
             name = "Uluru (Ayers Rock)",
@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Set up the toolbar as the action bar for this activity.
+        // Wire up the toolbar so it shows the app title at the top of the screen.
         toolbar = findViewById(R.id.toolbar)
 
         setSupportActionBar(toolbar)
@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
         refreshCards()
     }
 
-    // Populate the region spinner from the string-array resource.
+    // Build the region spinner from the list defined in strings.xml.
     private fun setupSpinner() {
         ArrayAdapter.createFromResource(
             this,
@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Collect all four card views into a list for easy iteration.
+    // Grab all four card views and keep them in a list so we can loop through them easily.
     private fun setupCards() {
         cardViews.clear()
         cardViews += findViewById<View>(R.id.card_1)
@@ -107,15 +107,15 @@ class MainActivity : AppCompatActivity() {
         cardViews += findViewById<View>(R.id.card_4)
     }
 
-    // Attach change listeners so any filter or sort change refreshes the displayed cards.
+    // Watch each filter control and re-draw the cards whenever something changes.
     private fun setupFilters() {
         regionSpinner.onItemSelectedListener = SimpleItemSelectedListener { refreshCards() }
         recentOnlyCheckBox.setOnCheckedChangeListener { _, _ -> refreshCards() }
         sortRadioGroup.setOnCheckedChangeListener { _, _ -> refreshCards() }
     }
 
-    // Filter and sort the locations list based on current UI state,
-    // then show or hide each card accordingly.
+    // Work out which locations to show based on the current filter and sort settings,
+    // then update each card on screen.
     private fun refreshCards() {
         val selectedRegion = regionSpinner.selectedItem?.toString().orEmpty()
         val recentOnly = recentOnlyCheckBox.isChecked
@@ -141,12 +141,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Show or hide the empty-state message based on whether any results matched.
+        // Show the empty-state message if nothing matched, otherwise hide it.
         emptyStateText.visibility = if (sorted.isEmpty()) View.VISIBLE else View.GONE
     }
 
-    // Bind a single LocationItem to a card view.
-    // Uses Kotlin's 'with' scope function to avoid repeating the card receiver.
+    // Fill a single card with data from a LocationItem.
+    // 'with' means we can call findViewById directly on the card without repeating it.
     private fun bindCard(card: View, item: LocationItem) {
         with(card) {
             findViewById<ImageView>(R.id.iv_location).setImageResource(item.imageResId)
@@ -158,14 +158,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Create an intent with the selected location as a Parcelable extra and start the detail activity.
+    // Pack the selected location into an Intent and open the detail screen.
+    // 'apply' lets us attach the extra to the Intent before passing it to startActivity.
     private fun openLocationDetail(item: LocationItem) {
         startActivity(Intent(this, LocationDetailActivity::class.java).apply {
             putExtra(LocationDetailActivity.EXTRA_LOCATION, item)
         })
     }
 
-    // Returns true if the given ISO date string is within the last 12 months.
+    // Check if the given date string falls within the last 12 months.
     private fun wasVisitedInLastYear(dateText: String): Boolean {
         val visitDate = LocalDate.parse(dateText, DateTimeFormatter.ISO_LOCAL_DATE)
         return visitDate.isAfter(LocalDate.now().minusYears(1))
