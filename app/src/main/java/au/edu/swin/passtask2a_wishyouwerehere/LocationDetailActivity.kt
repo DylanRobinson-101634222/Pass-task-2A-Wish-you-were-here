@@ -9,11 +9,11 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import au.edu.swin.passtask2a_wishyouwerehere.model.LocationItem
+import au.edu.swin.passtask2a_wishyouwerehere.validation.LocationInputValidator
+import au.edu.swin.passtask2a_wishyouwerehere.validation.LocationValidationError
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class LocationDetailActivity : AppCompatActivity() {
 
@@ -120,35 +120,26 @@ class LocationDetailActivity : AppCompatActivity() {
         placeLayout.error = null
         dateLayout.error = null
 
-        if (item.name.isBlank()) {
-            nameLayout.error = getString(R.string.error_name_required)
-            return getString(R.string.error_fix_fields)
+        return when (LocationInputValidator.validate(item)) {
+            LocationValidationError.NAME_REQUIRED -> {
+                nameLayout.error = getString(R.string.error_name_required)
+                getString(R.string.error_fix_fields)
+            }
+            LocationValidationError.PLACE_REQUIRED -> {
+                placeLayout.error = getString(R.string.error_place_required)
+                getString(R.string.error_fix_fields)
+            }
+            LocationValidationError.DATE_FORMAT -> {
+                dateLayout.error = getString(R.string.error_date_format)
+                getString(R.string.error_fix_fields)
+            }
+            LocationValidationError.DATE_FUTURE -> {
+                dateLayout.error = getString(R.string.error_date_future)
+                getString(R.string.error_fix_fields)
+            }
+            LocationValidationError.RATING_RANGE -> getString(R.string.error_rating_range)
+            null -> null
         }
-
-        if (item.cityStateCountry.isBlank()) {
-            placeLayout.error = getString(R.string.error_place_required)
-            return getString(R.string.error_fix_fields)
-        }
-
-        val parsedDate = runCatching {
-            LocalDate.parse(item.lastVisitDate, DateTimeFormatter.ISO_LOCAL_DATE)
-        }.getOrNull()
-
-        if (parsedDate == null) {
-            dateLayout.error = getString(R.string.error_date_format)
-            return getString(R.string.error_fix_fields)
-        }
-
-        if (parsedDate.isAfter(LocalDate.now())) {
-            dateLayout.error = getString(R.string.error_date_future)
-            return getString(R.string.error_fix_fields)
-        }
-
-        if (item.rating < 0f || item.rating > 5f) {
-            return getString(R.string.error_rating_range)
-        }
-
-        return null
     }
 
     companion object {
