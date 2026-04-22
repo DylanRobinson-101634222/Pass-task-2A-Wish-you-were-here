@@ -15,13 +15,13 @@ The completed app presents four travel locations on the first screen. Each card 
 
 This report includes:
 
-- two simple screen sketches,
-- an explanation of the Intent used in the app,
-- reasons for using Parcelable,
-- knowledge gaps and the solutions I applied,
-- references to supporting sources,
-- recommendations for future work,
-- and a checklist of screenshots and weekly task evidence to include in the final PDF.
+-   two simple screen sketches,
+-   an explanation of the Intent used in the app,
+-   reasons for using Parcelable,
+-   knowledge gaps and the solutions I applied,
+-   references to supporting sources,
+-   recommendations for future work,
+-   and a checklist of screenshots and weekly task evidence to include in the final PDF.
 
 # Screen sketches
 
@@ -33,16 +33,16 @@ The task requires two simple layout sketches. The wireframes developed in FigJam
 
 Widgets shown in this sketch:
 
-- `Toolbar`
-- `TextView` heading
-- `Spinner`
-- `CheckBox`
-- `RadioGroup` with two `RadioButton` options
-- `GridLayout` with four included card layouts
-- each card contains an `ImageView`, `TextView`, `RatingBar`, and `TextView`
-- empty-state `TextView`
+-   `Toolbar`
+-   `TextView` heading
+-   `Spinner`
+-   `CheckBox`
+-   `RadioGroup` with two `RadioButton` options
+-   `GridLayout` with four included card layouts
+-   each card contains an `ImageView`, `TextView`, `RatingBar`, and `TextView`
+-   empty-state `TextView`
 
-##
+## 
 
 ## Sketch 2: Detail screen
 
@@ -50,14 +50,14 @@ Widgets shown in this sketch:
 
 Widgets shown in this sketch:
 
-- `Toolbar` with Up/back button
-- `ImageView`
-- `TextView` for the location name
-- `TextView` for city/state/country
-- `TextView` for last visit date
-- `RatingBar` configured as read-only
+-   `Toolbar` with Up/back button
+-   `ImageView`
+-   `TextView` for the location name
+-   `TextView` for city/state/country
+-   `TextView` for last visit date
+-   `RatingBar` configured as read-only
 
-#
+# 
 
 # Intent and Parcelable
 
@@ -68,7 +68,7 @@ An explicit Intent is used to open `LocationDetailActivity` from `MainActivity` 
 The Intent contains three important parts:
 
 | Intent component  | Purpose in this app                                                                            |
-| ----------------- | ---------------------------------------------------------------------------------------------- |
+|-------------------|------------------------------------------------------------------------------------------------|
 | `Context`         | `this` tells Android which activity is launching the next screen                               |
 | Destination class | `LocationDetailActivity::class.java` tells Android exactly which screen to open                |
 | Extra data        | `putExtra(...)` attaches the selected `LocationItem` object so the second activity can read it |
@@ -104,21 +104,21 @@ This structure keeps responsibility clear. The first activity determines which i
 
 Advantages of `Parcelable` on Android:
 
-- it is faster than Java `Serializable`,
-- it produces less temporary object overhead,
-- it is designed specifically for Android inter-component communication,
-- and it lets me pass one full model object instead of many separate strings and numbers.
+-   it is faster than Java `Serializable`,
+-   it produces less temporary object overhead,
+-   it is designed specifically for Android inter-component communication,
+-   and it lets me pass one full model object instead of many separate strings and numbers.
 
-  In this app, each location object includes:
+    In this app, each location object includes:
 
-- name,
-- city/state/country,
-- last visit date,
-- rating,
-- image resource ID,
-- region.
+-   name,
+-   city/state/country,
+-   last visit date,
+-   rating,
+-   image resource ID,
+-   region.
 
-  That means one Parcelable object contains everything the detail screen needs to render the selected location correctly.
+    That means one Parcelable object contains everything the detail screen needs to render the selected location correctly.
 
 # Knowledge gaps and solutions
 
@@ -193,13 +193,13 @@ This ensures the non-TextView widget displays the correct star value as soon as 
 
 Styles used across multiple places:
 
-- `ScreenHeadingStyle`
-- `LocationTitleStyle`
-- `LocationMetaStyle`
+-   `ScreenHeadingStyle`
+-   `LocationTitleStyle`
+-   `LocationMetaStyle`
 
-  For example, `ScreenHeadingStyle` is used for the main screen heading and the detail screen title text, while `LocationMetaStyle` is reused for metadata such as the place and last visit date.
+    For example, `ScreenHeadingStyle` is used for the main screen heading and the detail screen title text, while `LocationMetaStyle` is reused for metadata such as the place and last visit date.
 
-  This makes the layouts easier to read and easier to maintain if colours, sizes, or labels need to change later.
+    This makes the layouts easier to read and easier to maintain if colours, sizes, or labels need to change later.
 
 ## Using Kotlin scope functions clearly
 
@@ -207,10 +207,10 @@ Styles used across multiple places:
 
 **Solution:** Scope functions were used only in places where they improved clarity:
 
-- `apply` when configuring a new `Intent`,
-- `with` when binding several views from the same object.
+-   `apply` when configuring a new `Intent`,
+-   `with` when binding several views from the same object.
 
-  Code snippets:
+    Code snippets:
 
 ```kotlin
 startActivity(Intent(this, LocationDetailActivity::class.java).apply {
@@ -232,7 +232,7 @@ Using scope functions in these small cases reduces repetition without making the
 # Evidence mapping to criteria
 
 | Requirement                                       | Evidence in app                                                                                                         |
-| ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+|---------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
 | Two activities with Intent                        | `MainActivity` opens `LocationDetailActivity` using `startActivity(...)`                                                |
 | Parcelable object used                            | `LocationItem` implements `Parcelable`                                                                                  |
 | Four images, title, rating and date               | four included cards in the main screen grid and `bindCard()` populates them                                             |
@@ -267,19 +267,19 @@ The following screenshots should be inserted into the final PDF version of the r
 
 # References
 
-Android Developers. (2021). _Styles and themes_. https://developer.android.com/develop/ui/views/theming/themes
+Android Developers. (2021). *Styles and themes*. https://developer.android.com/develop/ui/views/theming/themes
 
-Android Developers. (2022). _RatingBar_. https://developer.android.com/reference/android/widget/RatingBar
+Android Developers. (2022). *RatingBar*. https://developer.android.com/reference/android/widget/RatingBar
 
-Android Developers. (2024a). _Intents and intent filters_. https://developer.android.com/guide/components/intents-filters
+Android Developers. (2024a). *Intents and intent filters*. https://developer.android.com/guide/components/intents-filters
 
-Android Developers. (2024b). _Parcelable implementation generator_. https://developer.android.com/kotlin/parcelize
+Android Developers. (2024b). *Parcelable implementation generator*. https://developer.android.com/kotlin/parcelize
 
-Android Developers. (2024c). _GridLayout_. https://developer.android.com/reference/android/widget/GridLayout
+Android Developers. (2024c). *GridLayout*. https://developer.android.com/reference/android/widget/GridLayout
 
-Kotlin Foundation. (2022). _Scope functions_. https://kotlinlang.org/docs/scope-functions.html
+Kotlin Foundation. (2022). *Scope functions*. https://kotlinlang.org/docs/scope-functions.html
 
-Ronald, T. (2021). _SDMD 2021: Core 2 demo_ [Video]. YouTube. https://www.youtube.com/watch?v=UBP5y3AKaVM
+Ronald, T. (2021). *SDMD 2021: Core 2 demo* [Video]. YouTube. https://www.youtube.com/watch?v=UBP5y3AKaVM
 
 # Appendix
 
