@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         LocationItem(
             name = "Great Barrier Reef",
             cityStateCountry = "Cairns / Queensland, Australia",
-            lastVisitDate = "2026-02-10",
+            lastVisitDate = "2025-02-10",
             rating = 5.0f,
             imageResId = R.drawable.location_great_barrier_reef,
             region = "Queensland"

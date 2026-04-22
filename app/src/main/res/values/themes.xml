@@ -2,14 +2,13 @@
     <!-- Base application theme. -->
     <!-- Use NoActionBar so we can supply a custom Toolbar in layouts -->
     <style name="Theme.PassTask2AWishYouWereHere" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
+        <!-- Material dynamic colour tokens. -->
         <item name="colorPrimary">@color/material_dynamic_primary40</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorPrimaryVariant">@color/material_dynamic_primary60</item>
+        <item name="colorOnPrimary">@color/material_dynamic_neutral99</item>
+        <item name="colorSecondary">@color/material_dynamic_secondary40</item>
+        <item name="colorSecondaryVariant">@color/material_dynamic_secondary60</item>
+        <item name="colorOnSecondary">@color/material_dynamic_neutral99</item>
         <!-- Status bar color. Keep it themed. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
