@@ -1,15 +1,25 @@
 package au.edu.swin.passtask2a_wishyouwerehere
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Build
 import android.widget.ImageView
 import android.widget.RatingBar
-import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import au.edu.swin.passtask2a_wishyouwerehere.model.LocationItem
+import com.google.android.material.textfield.TextInputEditText
 
 class LocationDetailActivity : AppCompatActivity() {
+
+    private var originalLocation: LocationItem? = null
+    private var locationIndex: Int = -1
+
+    private lateinit var nameInput: TextInputEditText
+    private lateinit var placeInput: TextInputEditText
+    private lateinit var dateInput: TextInputEditText
+    private lateinit var ratingBar: RatingBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +29,11 @@ class LocationDetailActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar_detail)
         setSupportActionBar(toolbar)
 
+        nameInput = findViewById(R.id.et_detail_name)
+        placeInput = findViewById(R.id.et_detail_place)
+        dateInput = findViewById(R.id.et_detail_date)
+        ratingBar = findViewById(R.id.rb_detail_rating)
+
         // Read the location that was passed from the main screen.
         // Android 13+ has a newer typed API; older devices use the legacy one.
         val location = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -27,12 +42,14 @@ class LocationDetailActivity : AppCompatActivity() {
             @Suppress("DEPRECATION")
             intent.getParcelableExtra(EXTRA_LOCATION)
         }
+        locationIndex = intent.getIntExtra(EXTRA_LOCATION_INDEX, -1)
 
         // Nothing to show if no location came through — go back straight away.
-        if (location == null) {
+        if (location == null || locationIndex < 0) {
             finish()
             return
         }
+        originalLocation = location
 
         // Show the location name in the toolbar and add the back arrow.
         supportActionBar?.apply {
@@ -40,26 +57,51 @@ class LocationDetailActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
         }
 
-        // Fill in all the detail views from the location data.
-        // 'with' lets us reference each field directly without writing 'location.' every time.
+        // Fill the form with current values so the user can edit existing details.
         with(location) {
             findViewById<ImageView>(R.id.iv_detail_location).setImageResource(imageResId)
-            findViewById<TextView>(R.id.tv_detail_name).text = name
-            findViewById<TextView>(R.id.tv_detail_place).text = cityStateCountry
-            findViewById<TextView>(R.id.tv_detail_date).text =
-                getString(R.string.last_visit_format, lastVisitDate)
-            // RatingBar shows the star rating — set here so it reflects the correct value on load.
-            findViewById<RatingBar>(R.id.rb_detail_rating).rating = rating
+            nameInput.setText(name)
+            placeInput.setText(cityStateCountry)
+            dateInput.setText(lastVisitDate)
+            ratingBar.rating = rating
         }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                saveAndFinish()
+            }
+        })
     }
 
     // Go back to the main screen when the back arrow in the toolbar is tapped.
     override fun onSupportNavigateUp(): Boolean {
-        finish()
+        saveAndFinish()
         return true
+    }
+
+    private fun saveAndFinish() {
+        val original = originalLocation ?: run {
+            finish()
+            return
+        }
+
+        val updated = original.copy(
+            name = nameInput.text?.toString().orEmpty().trim(),
+            cityStateCountry = placeInput.text?.toString().orEmpty().trim(),
+            lastVisitDate = dateInput.text?.toString().orEmpty().trim(),
+            rating = ratingBar.rating
+        )
+
+        setResult(RESULT_OK, Intent().apply {
+            putExtra(EXTRA_LOCATION_INDEX, locationIndex)
+            putExtra(EXTRA_UPDATED_LOCATION, updated)
+        })
+        finish()
     }
 
     companion object {
         const val EXTRA_LOCATION = "extra_location"
+        const val EXTRA_LOCATION_INDEX = "extra_location_index"
+        const val EXTRA_UPDATED_LOCATION = "extra_updated_location"
     }
 }
