@@ -12,6 +12,9 @@
     <string name="region_all">All regions</string>
     <string name="empty_state_message">No places match your current filters. Try changing your selection.</string>
     <string name="detail_back">Back</string>
+    <string name="field_name_label">Location name</string>
+    <string name="field_place_label">City, state, country</string>
+    <string name="field_date_label">Last visit date (yyyy-mm-dd)</string>
 
     <string-array name="region_options">
         <item>All regions</item>

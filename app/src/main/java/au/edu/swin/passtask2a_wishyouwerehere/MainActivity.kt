@@ -12,6 +12,7 @@ import android.widget.RadioGroup
 import android.widget.RatingBar
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import au.edu.swin.passtask2a_wishyouwerehere.model.LocationItem
 import java.time.LocalDate
@@ -20,7 +21,7 @@ import java.time.format.DateTimeFormatter
 class MainActivity : AppCompatActivity() {
 
     // All four places are stored here in memory — nothing is written to disk.
-    private val locations = listOf(
+    private val locations = mutableListOf(
         LocationItem(
             name = "Uluru (Ayers Rock)",
             cityStateCountry = "Uluru-Kata Tjuta National Park, Northern Territory, Australia",
@@ -63,6 +64,20 @@ class MainActivity : AppCompatActivity() {
     private lateinit var emptyStateText: TextView
 
     private val cardViews = mutableListOf<View>()
+    private val detailLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode != RESULT_OK) return@registerForActivityResult
+
+        val data = result.data ?: return@registerForActivityResult
+        val index = data.getIntExtra(LocationDetailActivity.EXTRA_LOCATION_INDEX, -1)
+        val updated = readUpdatedLocationFromIntent(data)
+
+        if (index in locations.indices && updated != null) {
+            locations[index] = updated
+            refreshCards()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -161,15 +176,31 @@ class MainActivity : AppCompatActivity() {
     // Pack the selected location into an Intent and open the detail screen.
     // 'apply' lets us attach the extra to the Intent before passing it to startActivity.
     private fun openLocationDetail(item: LocationItem) {
-        startActivity(Intent(this, LocationDetailActivity::class.java).apply {
+        val index = locations.indexOf(item)
+        if (index !in locations.indices) return
+
+        detailLauncher.launch(Intent(this, LocationDetailActivity::class.java).apply {
             putExtra(LocationDetailActivity.EXTRA_LOCATION, item)
+            putExtra(LocationDetailActivity.EXTRA_LOCATION_INDEX, index)
         })
     }
 
     // Check if the given date string falls within the last 12 months.
     private fun wasVisitedInLastYear(dateText: String): Boolean {
-        val visitDate = LocalDate.parse(dateText, DateTimeFormatter.ISO_LOCAL_DATE)
+        val visitDate = runCatching {
+            LocalDate.parse(dateText, DateTimeFormatter.ISO_LOCAL_DATE)
+        }.getOrNull() ?: return false
+
         return visitDate.isAfter(LocalDate.now().minusYears(1))
+    }
+
+    private fun readUpdatedLocationFromIntent(intent: Intent): LocationItem? {
+        return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra(LocationDetailActivity.EXTRA_UPDATED_LOCATION, LocationItem::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getParcelableExtra(LocationDetailActivity.EXTRA_UPDATED_LOCATION)
+        }
     }
 }
 
