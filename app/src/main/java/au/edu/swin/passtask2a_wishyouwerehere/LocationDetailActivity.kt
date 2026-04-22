@@ -67,7 +67,8 @@ class LocationDetailActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
         }
 
-        // Fill the form with current values so the user can edit existing details.
+        // Pre-fill the form with current values so the user has something to edit
+        // rather than staring at blank fields.
         with(location) {
             findViewById<ImageView>(R.id.iv_detail_location).setImageResource(imageResId)
             nameInput.setText(name)
@@ -76,6 +77,7 @@ class LocationDetailActivity : AppCompatActivity() {
             ratingBar.rating = rating
         }
 
+        // Intercept the system back button so we can save before leaving.
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 saveAndFinish()
@@ -84,17 +86,20 @@ class LocationDetailActivity : AppCompatActivity() {
     }
 
     // Go back to the main screen when the back arrow in the toolbar is tapped.
+    // This also triggers the save handler above, which validates and returns the data.
     override fun onSupportNavigateUp(): Boolean {
         saveAndFinish()
         return true
     }
 
     private fun saveAndFinish() {
+        // Bail out early if we don't have the original location data.
         val original = originalLocation ?: run {
             finish()
             return
         }
 
+        // Copy the location with the new form values the user entered.
         val updated = original.copy(
             name = nameInput.text?.toString().orEmpty().trim(),
             cityStateCountry = placeInput.text?.toString().orEmpty().trim(),
@@ -102,12 +107,15 @@ class LocationDetailActivity : AppCompatActivity() {
             rating = ratingBar.rating
         )
 
+        // Run validation using the shared validator object.
+        // If there's an error, show a Snackbar and stay on screen.
         val errorMessage = validateInputs(updated)
         if (errorMessage != null) {
             Snackbar.make(findViewById(R.id.scroll_detail), errorMessage, Snackbar.LENGTH_LONG).show()
             return
         }
 
+        // No errors — pack the updated item into the result intent and finish.
         setResult(RESULT_OK, Intent().apply {
             putExtra(EXTRA_LOCATION_INDEX, locationIndex)
             putExtra(EXTRA_UPDATED_LOCATION, updated)
@@ -116,10 +124,13 @@ class LocationDetailActivity : AppCompatActivity() {
     }
 
     private fun validateInputs(item: LocationItem): String? {
+        // Clear all field errors first, then check each rule.
         nameLayout.error = null
         placeLayout.error = null
         dateLayout.error = null
 
+        // Use the reusable validator to check the item.
+        // Map the returned error type to a user-friendly Snackbar message.
         return when (LocationInputValidator.validate(item)) {
             LocationValidationError.NAME_REQUIRED -> {
                 nameLayout.error = getString(R.string.error_name_required)
