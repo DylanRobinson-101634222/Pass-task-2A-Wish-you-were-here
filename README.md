@@ -1,32 +1,16 @@
-# Wish You Were Here (Pass Task 2A)
+# Wish You Were Here
 
-Two-activity Android app built in Kotlin for COS30017.
+Android app for COS30017 Pass Task 2A.
 
-## Current scope (Stage 1)
+## What it does
 
-- Activity 1 shows four location cards in a grid.
-- Each card has an image, title, last-visit text, and rating.
-- UI includes `Spinner`, `CheckBox`, `RadioGroup`, and `RatingBar`.
-- Tapping an image opens Activity 2.
-- Data is passed via a `Parcelable` model (`LocationItem`).
+Main screen shows four location cards in a grid. Each card has an image, name, rating, and date. You can filter by region or sort by rating.
+
+Tap a card to see more details.
 
 ## Run
 
-1. Open the project in Android Studio.
-2. Sync Gradle.
-3. Run the `app` configuration on an emulator/device (API 30+).
-
-## Quick check from terminal
-
-```powershell
-Set-Location "C:\Users\Drsky\AndroidStudioProjects\Passtask2AWishyouwerehere"
-.\gradlew.bat test
-```
-
-## Next planned stages
-
-- Replace placeholder drawable images with your own photos.
-- Add small validation and UX polish.
-- Capture screenshots for spike report evidence.
-- Final pass on comments, decomposition, and style reuse notes.
+1. Open in Android Studio
+2. Sync Gradle
+3. Run on an emulator (API 30+)
 
