@@ -12,6 +12,7 @@ import android.widget.RadioGroup
 import android.widget.RatingBar
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import au.edu.swin.passtask2a_wishyouwerehere.model.LocationItem
@@ -76,6 +77,11 @@ class MainActivity : AppCompatActivity() {
         if (index in locations.indices && updated != null) {
             locations[index] = updated
             refreshCards()
+            Toast.makeText(
+                this,
+                getString(R.string.location_updated_toast, updated.name),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 

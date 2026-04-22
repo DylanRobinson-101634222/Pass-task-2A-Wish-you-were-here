@@ -15,6 +15,13 @@
     <string name="field_name_label">Location name</string>
     <string name="field_place_label">City, state, country</string>
     <string name="field_date_label">Last visit date (yyyy-mm-dd)</string>
+    <string name="error_fix_fields">Please fix the highlighted fields.</string>
+    <string name="error_name_required">Enter a location name.</string>
+    <string name="error_place_required">Enter city, state, country.</string>
+    <string name="error_date_format">Use date format yyyy-mm-dd.</string>
+    <string name="error_date_future">Date cannot be in the future.</string>
+    <string name="error_rating_range">Rating must be between 0 and 5.</string>
+    <string name="location_updated_toast">Updated: %1$s</string>
 
     <string-array name="region_options">
         <item>All regions</item>
