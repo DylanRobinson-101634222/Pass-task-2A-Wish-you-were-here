@@ -65,18 +65,25 @@ class MainActivity : AppCompatActivity() {
     private lateinit var emptyStateText: TextView
 
     private val cardViews = mutableListOf<View>()
+    // This launcher handles the result when user returns from editing a location.
+    // It receives the index and updated item, swaps them in memory, and refreshes the screen.
     private val detailLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
+        // If the detail activity was closed without saving, bail out.
         if (result.resultCode != RESULT_OK) return@registerForActivityResult
-
+        
+        // Extract the index and updated item from the result intent.
         val data = result.data ?: return@registerForActivityResult
         val index = data.getIntExtra(LocationDetailActivity.EXTRA_LOCATION_INDEX, -1)
         val updated = readUpdatedLocationFromIntent(data)
-
+        
+        // If the index is valid and we got an updated item, replace it in the list
+        // then refresh all cards to show the change.
         if (index in locations.indices && updated != null) {
             locations[index] = updated
             refreshCards()
+            // Tell the user that we saved their changes with a Toast.
             Toast.makeText(
                 this,
                 getString(R.string.location_updated_toast, updated.name),
@@ -179,12 +186,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Pack the selected location into an Intent and open the detail screen.
-    // 'apply' lets us attach the extra to the Intent before passing it to startActivity.
+    // When a card is tapped, find its index and launch the detail activity
+    // using the activity result contract so we can handle changes on return.
     private fun openLocationDetail(item: LocationItem) {
         val index = locations.indexOf(item)
         if (index !in locations.indices) return
-
+        
+        // Launch using our registered result contract, which will handle the response.
         detailLauncher.launch(Intent(this, LocationDetailActivity::class.java).apply {
             putExtra(LocationDetailActivity.EXTRA_LOCATION, item)
             putExtra(LocationDetailActivity.EXTRA_LOCATION_INDEX, index)
@@ -200,6 +208,8 @@ class MainActivity : AppCompatActivity() {
         return visitDate.isAfter(LocalDate.now().minusYears(1))
     }
 
+    // Helper to safely extract the updated location from the result intent.
+    // Handles the API difference between Android 13+ and earlier versions.
     private fun readUpdatedLocationFromIntent(intent: Intent): LocationItem? {
         return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra(LocationDetailActivity.EXTRA_UPDATED_LOCATION, LocationItem::class.java)
