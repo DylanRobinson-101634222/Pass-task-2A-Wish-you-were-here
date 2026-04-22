@@ -9,7 +9,11 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import au.edu.swin.passtask2a_wishyouwerehere.model.LocationItem
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class LocationDetailActivity : AppCompatActivity() {
 
@@ -20,6 +24,9 @@ class LocationDetailActivity : AppCompatActivity() {
     private lateinit var placeInput: TextInputEditText
     private lateinit var dateInput: TextInputEditText
     private lateinit var ratingBar: RatingBar
+    private lateinit var nameLayout: TextInputLayout
+    private lateinit var placeLayout: TextInputLayout
+    private lateinit var dateLayout: TextInputLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +40,9 @@ class LocationDetailActivity : AppCompatActivity() {
         placeInput = findViewById(R.id.et_detail_place)
         dateInput = findViewById(R.id.et_detail_date)
         ratingBar = findViewById(R.id.rb_detail_rating)
+        nameLayout = findViewById(R.id.til_detail_name)
+        placeLayout = findViewById(R.id.til_detail_place)
+        dateLayout = findViewById(R.id.til_detail_date)
 
         // Read the location that was passed from the main screen.
         // Android 13+ has a newer typed API; older devices use the legacy one.
@@ -92,11 +102,53 @@ class LocationDetailActivity : AppCompatActivity() {
             rating = ratingBar.rating
         )
 
+        val errorMessage = validateInputs(updated)
+        if (errorMessage != null) {
+            Snackbar.make(findViewById(R.id.scroll_detail), errorMessage, Snackbar.LENGTH_LONG).show()
+            return
+        }
+
         setResult(RESULT_OK, Intent().apply {
             putExtra(EXTRA_LOCATION_INDEX, locationIndex)
             putExtra(EXTRA_UPDATED_LOCATION, updated)
         })
         finish()
+    }
+
+    private fun validateInputs(item: LocationItem): String? {
+        nameLayout.error = null
+        placeLayout.error = null
+        dateLayout.error = null
+
+        if (item.name.isBlank()) {
+            nameLayout.error = getString(R.string.error_name_required)
+            return getString(R.string.error_fix_fields)
+        }
+
+        if (item.cityStateCountry.isBlank()) {
+            placeLayout.error = getString(R.string.error_place_required)
+            return getString(R.string.error_fix_fields)
+        }
+
+        val parsedDate = runCatching {
+            LocalDate.parse(item.lastVisitDate, DateTimeFormatter.ISO_LOCAL_DATE)
+        }.getOrNull()
+
+        if (parsedDate == null) {
+            dateLayout.error = getString(R.string.error_date_format)
+            return getString(R.string.error_fix_fields)
+        }
+
+        if (parsedDate.isAfter(LocalDate.now())) {
+            dateLayout.error = getString(R.string.error_date_future)
+            return getString(R.string.error_fix_fields)
+        }
+
+        if (item.rating < 0f || item.rating > 5f) {
+            return getString(R.string.error_rating_range)
+        }
+
+        return null
     }
 
     companion object {
