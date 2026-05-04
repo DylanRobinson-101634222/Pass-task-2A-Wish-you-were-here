@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Wish You Were Here</string>
+    <string name="app_name">My Travel Journal</string>
     <string name="main_heading">Places I recommend</string>
     <string name="recent_only_checkbox">Show only places visited in the last year</string>
     <string name="sort_name">Sort by name (ASC)</string>
